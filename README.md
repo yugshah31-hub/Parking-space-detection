@@ -1,4 +1,4 @@
-# Parking Space Detection - End-to-End DevOps Pipeline by yug shah
+# Parking Space Detection - End-to-End DevOps Pipeline
 
 A Flask + OpenCV web app that detects free / occupied parking slots from an
 image, delivered through a Git -> GitHub Actions -> Docker -> Deploy pipeline.
