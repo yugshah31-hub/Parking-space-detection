@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Parking Space Detection</title>
+<style>
+  body{font-family:system-ui,sans-serif;max-width:760px;margin:2rem auto;padding:0 1rem}
+  .card{border:1px solid #ccc;border-radius:8px;padding:1rem;margin-top:1rem}
+  img{max-width:100%;border:1px solid #ddd;margin-top:1rem}
+  .free{color:#0a7d2c}.occ{color:#c0262d}
+</style>
+</head>
+<body>
+<h1>Parking Space Detection</h1>
+<p>Upload a top-view parking lot image (640x360) to find free and occupied slots.</p>
+<div class="card">
+  <input type="file" id="file" accept="image/*">
+  <button onclick="run()">Detect</button>
+  <p id="summary"></p>
+  <img id="out" alt="" style="display:none">
+</div>
+<script>
+async function run(){
+  const f=document.getElementById('file').files[0];
+  if(!f){alert('Choose an image first');return;}
+  const fd=new FormData();fd.append('image',f);
+  const r=await (await fetch('/api/detect',{method:'POST',body:fd})).json();
+  if(r.error){document.getElementById('summary').textContent=r.error;return;}
+  document.getElementById('summary').innerHTML=
+   'Total: '+r.total+' | <span class="free">Free: '+r.free+'</span> | <span class="occ">Occupied: '+r.occupied+'</span>';
+  const fd2=new FormData();fd2.append('image',f);
+  const blob=await (await fetch('/api/annotate',{method:'POST',body:fd2})).blob();
+  const img=document.getElementById('out');img.src=URL.createObjectURL(blob);img.style.display='block';
+}
+</script>
+</body>
+</html>

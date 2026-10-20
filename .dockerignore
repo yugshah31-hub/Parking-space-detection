@@ -1,0 +1,11 @@
+.git
+.github
+tests
+scripts
+sample
+__pycache__
+*.pyc
+venv
+.flake8
+requirements-dev.txt
+Jenkinsfile
